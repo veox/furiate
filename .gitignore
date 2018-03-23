@@ -78,3 +78,6 @@ genesis.json
 
 # virtualenv
 .virtualenv
+
+# private bits
+*.key
