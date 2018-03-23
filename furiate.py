@@ -1,8 +1,10 @@
 #!/usr/bin/env python
 
 import getpass
+import time
 
 from web3 import Web3, HTTPProvider
+from eth_account import Account # will use directly instead of through web3 provider
 
 with open('infura.key') as keyfile:
     infurakey = keyfile.read()
@@ -21,19 +23,21 @@ if 'rinkeby' in w3s.keys():
     from web3.middleware import geth_poa_middleware
     w3s['rinkeby'].middleware_stack.inject(geth_poa_middleware, layer=0)
 
-acct = None
+# only ask for password once
+with open('ethereum.key') as keyfile:
+    privkey = Account.decrypt(keyfile.read(), getpass.getpass())
+    acct = Account.privateKeyToAccount(privkey)
+
+print(time.ctime())
 for net, w3 in w3s.items():
-    # enable local key management (disabled by default in v4 beta 12)
-    #w3.eth.enable_unaudited_features()
-
-    # only ask for password once
-    if acct is None:
-        with open('ethereum.key') as keyfile:
-            privkey = w3.eth.account.decrypt(keyfile.read(), getpass.getpass())
-            acct = w3.eth.account.privateKeyToAccount(privkey)
-
     print(net, 'block', w3.eth.getBlock('latest')['number'])
+    nonces = {}
+    nonces[net] = w3.eth.getTransactionCount(acct.address)
 
+    if not all(value == 0 for nonce in nonces.values()):
+        exit 1
+
+for net, w3 in w3s.items():
     # MODIFY
     tx = {
         # specify explicitly to prevent accidental repeats
@@ -48,15 +52,17 @@ for net, w3 in w3s.items():
         'chainId': chainids[net]
     }
 
-    signed = w3.eth.account.signTransaction(tx, acct.privateKey)
+    signed = acct.signTransaction(tx)
 
     txhash = None
     try:
         txhash = w3.eth.sendRawTransaction(signed.rawTransaction)
+        print(net, 'txhash', Web3.toHex(txhash))
     except ValueError as e:
-        if e.args[0]['message'] != 'nonce too low':
+        errorcode = e.args[0]['code']
+
+        # 'invalid sender' (everywhere?..) and 'transaction already imported' (kovan)
+        if errorcode != -32000 and errorcode != -32010:
             raise e
         else:
             print(net, 'Transaction with nonce', tx['nonce'], 'already exists!..')
-    finally:
-        print(net, 'txhash', Web3.toHex(txhash))
