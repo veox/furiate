@@ -29,13 +29,16 @@ with open('ethereum.key') as keyfile:
     acct = Account.privateKeyToAccount(privkey)
 
 print(time.ctime())
+
+nonces = {}
 for net, w3 in w3s.items():
     print(net, 'block', w3.eth.getBlock('latest')['number'])
-    nonces = {}
+
     nonces[net] = w3.eth.getTransactionCount(acct.address)
 
-    if not all(value == 0 for nonce in nonces.values()):
-        exit 1
+    if len(set(list(nonces.values()))) > 1:
+        print('OOPS! nonces:', nonces)
+        raise Exception('nonces do not line up')
 
 for net, w3 in w3s.items():
     # MODIFY
