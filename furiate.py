@@ -31,8 +31,7 @@ for net, w3 in w3s.items():
             privkey = w3.eth.account.decrypt(keyfile.read(), getpass.getpass())
             acct = w3.eth.account.privateKeyToAccount(privkey)
 
-    latest = w3.eth.getBlock('latest')['number']
-    print(net, latest)
+    print(net, 'block', w3.eth.getBlock('latest')['number'])
 
     tx = {
         # specify explicitly to prevent accidental repeats
@@ -43,12 +42,11 @@ for net, w3 in w3s.items():
         'gas': 90000,
         # TODO: don't rely on infura
         'gasPrice': w3.eth.gasPrice,
-        # disable replay protection
+        # infura doesn't like chainId==0, so be explicit
         'chainId': chainids[net]
     }
 
-    # NOTE: could tx['chainId']=0 to disable replay protection and use same raw tx everywhere
-    signed = w3.eth.account.signTransaction(tx, privkey)
+    signed = w3.eth.account.signTransaction(tx, acct.privateKey)
 
     txhash = None
     try:
@@ -59,4 +57,4 @@ for net, w3 in w3s.items():
         else:
             print(net, 'Transaction with nonce', tx['nonce'], 'already exists!..')
     finally:
-        print(net, Web3.toHex(txhash))
+        print(net, 'txhash', Web3.toHex(txhash))
