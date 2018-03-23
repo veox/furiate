@@ -7,6 +7,7 @@ from web3 import Web3, HTTPProvider
 with open('infura.key') as keyfile:
     infurakey = keyfile.read()
 
+# MODIFY
 chainids = {
     #'mainnet': 1,
     'ropsten': 3,
@@ -33,6 +34,7 @@ for net, w3 in w3s.items():
 
     print(net, 'block', w3.eth.getBlock('latest')['number'])
 
+    # MODIFY
     tx = {
         # specify explicitly to prevent accidental repeats
         'nonce': 0,
