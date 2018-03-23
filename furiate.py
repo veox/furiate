@@ -6,9 +6,6 @@ import time
 from web3 import Web3, HTTPProvider
 from eth_account import Account # will use directly instead of through web3 provider
 
-with open('infura.key') as keyfile:
-    infurakey = keyfile.read()
-
 # MODIFY
 chainids = {
     #'mainnet': 1,
@@ -16,6 +13,18 @@ chainids = {
     'rinkeby': 4,
     'kovan': 42
 }
+
+# MODIFY
+tx = {
+    'nonce': 0,    # specified explicitly to prevent accidental repeats
+    'to': '0x0000000000000000000000000000000000000000',
+    'data': '0x0',
+    'gas': 90000,  # TODO: use network-specific estimateGas
+}
+
+with open('infura.key') as keyfile:
+    infurakey = keyfile.read()
+
 w3s = {net: Web3(HTTPProvider('https://' + net + '.infura.io/' + infurakey)) for net in chainids.keys()}
 
 # https://web3py.readthedocs.io/en/latest/middleware.html#geth-style-proof-of-authority
@@ -41,19 +50,11 @@ for net, w3 in w3s.items():
         raise Exception('nonces do not line up')
 
 for net, w3 in w3s.items():
-    # MODIFY
-    tx = {
-        # specify explicitly to prevent accidental repeats
-        'nonce': 0,
-        # TODO: actual data
-        'to': acct.address,
-        # TODO: use estimateGas
-        'gas': 90000,
-        # TODO: don't rely on infura
-        'gasPrice': w3.eth.gasPrice,
-        # infura doesn't like chainId==0, so be explicit
-        'chainId': chainids[net]
-    }
+    # infura doesn't like chainId==0, so be explicit
+    tx['chainId'] = chainids[net]
+
+    # TODO: other ways to specify?..
+    tx['gasPrice'] = w3.eth.gasPrice
 
     signed = acct.signTransaction(tx)
 
@@ -68,4 +69,4 @@ for net, w3 in w3s.items():
         if errorcode != -32000 and errorcode != -32010:
             raise e
         else:
-            print(net, 'Transaction with nonce', tx['nonce'], 'already exists!..')
+            print(net, 'transaction with nonce', tx['nonce'], 'already exists!..')
