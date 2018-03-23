@@ -5,6 +5,10 @@ and three major test-nets.
 
 Most useful for deploying contracts with the same address on all chains.
 
+Inspired by [the "Astral Projection" article][ap] by Richard Moore.
+
+[ap]: https://blog.ricmoo.com/contract-addresses-549074919ec8
+
 ## Installation
 
 In a Python 3 `virtualenv`:
