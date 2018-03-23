@@ -16,9 +16,9 @@ chainids = {
 
 # MODIFY
 tx = {
-    'nonce': 0,    # specified explicitly to prevent accidental repeats
-    'to': '0x0000000000000000000000000000000000000000',
-    'data': '0x0',
+    'nonce': 1,    # specified explicitly to prevent accidental repeats
+    'to': '',
+    'data': '0x3838533838f3',
     'gas': 90000,  # TODO: use network-specific estimateGas
 }
 
