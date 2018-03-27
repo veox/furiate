@@ -8,19 +8,19 @@ from eth_account import Account # will use directly instead of through web3 prov
 
 # MODIFY
 chainids = {
-    #'mainnet': 1,
+    'mainnet': 1,
     'ropsten': 3,
     'rinkeby': 4,
     'kovan': 42
 }
 
 # MODIFY
-tx = {
-    'nonce': 1,    # specified explicitly to prevent accidental repeats
-    'to': '',
-    'data': '0x3838533838f3',
-    'gas': 90000,  # TODO: use network-specific estimateGas
-}
+import schedule
+tx = schedule.tx
+
+# flop if gas too low
+if tx['to'] == '' and tx['data'] != '' and tx['gas'] <= 100000:
+    raise Exception('Gas quite likely too low for deployment!')
 
 with open('infura.key') as keyfile:
     infurakey = keyfile.read()
@@ -47,14 +47,15 @@ for net, w3 in w3s.items():
 
     if len(set(list(nonces.values()))) > 1:
         print('OOPS! nonces:', nonces)
-        raise Exception('nonces do not line up')
+        raise Exception('Nonces do not line up!')
 
 for net, w3 in w3s.items():
     # infura doesn't like chainId==0, so be explicit
     tx['chainId'] = chainids[net]
 
     # TODO: other ways to specify?..
-    tx['gasPrice'] = w3.eth.gasPrice
+    #tx['gasPrice'] = w3.eth.gasPrice
+    tx['gasPrice'] = Web3.toWei(1337, 'lovelace')
 
     signed = acct.signTransaction(tx)
 
