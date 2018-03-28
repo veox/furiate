@@ -23,9 +23,8 @@ pip install -r requirements.txt
 
 ## Using
 
-Search for `MODIFY` in the script body and edit the sections to your
-liking.
-
 Send ether to the account on all specified chains.
 
-When done, run the script.
+Modify `schedule.py` to your liking.
+
+Run the `furiate.py` script.

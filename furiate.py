@@ -6,17 +6,7 @@ import time
 from web3 import Web3, HTTPProvider
 from eth_account import Account # will use directly instead of through web3 provider
 
-# MODIFY
-chainids = {
-    'mainnet': 1,
-    'ropsten': 3,
-    'rinkeby': 4,
-    'kovan': 42
-}
-
-# MODIFY
-import schedule
-tx = schedule.tx
+from schedule import chainids, tx
 
 # flop if gas too low
 if tx['to'] == '' and tx['data'] != '' and tx['gas'] <= 100000:
