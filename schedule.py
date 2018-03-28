@@ -3,12 +3,12 @@ from web3 import Web3
 tx = {
     #'nonce': 0,
     #'to': '',      # none! (CREATE)
-    #'data': '0x600280600c6000396000f30030ff', # deploy: black-hole
+    #'data': '0x600280600c6000396000f30030ff', # deploy: collapser
     #'gas': 90000,
     ## gasPrice was not set!
 
     #'nonce': 1,
-    #'to': '0x8905C87B11507A243bbf57a17718d55F4C8A497C', # black-hole
+    #'to': '0x8905C87B11507A243bbf57a17718d55F4C8A497C', # collapser
     #'value': 42,   # die antwoord
     #'gas': 90000,
     #'gasPrice': Web3.toWei(1337, 'lovelace')
@@ -21,12 +21,12 @@ tx = {
 
     #'nonce': 3,
     #'to': '',      # none! (CREATE)
-    #'data': '0x600280600c6000396000f30030ff', # deploy: black-hole
+    #'data': '0x600280600c6000396000f30030ff', # deploy: collapser
     #'gas': 150000,
 
     #'nonce': 4,
     #'to': '0xC533fFbdcc952069f710dc3f6FA08510125Bcd49', # cloning-vat
-    #'data': str.lower('0xAfBbec1931321D822cC024dBa9c3a783F2019C62'), # address: black-hole (raw!)
+    #'data': str.lower('0xAfBbec1931321D822cC024dBa9c3a783F2019C62'), # address: collapser (raw!)
     #'gas': 90000,
 
     #'nonce': 5,
@@ -49,7 +49,7 @@ tx = {
 
     #'nonce': 9,
     #'to': '0x25d62DA8E032c5cba01c351c7868f4b1a0E0949e', # cannery
-    #'data': '0x600280600c6000396000f30030ff', # bytecode for: deploy: black-hole
+    #'data': '0x600280600c6000396000f30030ff', # bytecode for: deploy: collapser
     #'gas': 150000,
 
     #'nonce': 10,
@@ -57,12 +57,23 @@ tx = {
     #'data': str.lower('1e77625c9818c25d4f4FA6b40D24Ef231D1740eF'), # OOPS! incorrect calldatalen
     #'gas': 150000,
 
-    'nonce': 11,
-    'to': '0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789', # can-opener
-    'data': '0xb95460f8' + '0'*24 + str.lower('1e77625c9818c25d4f4FA6b40D24Ef231D1740eF'), # open(address(canned-black-hole))
-    'gas': 150000,
+    #'nonce': 11,
+    #'to': '0xC9d28DcA3CD8cCFDF583643837E3C637Bc59A789', # can-opener
+    #'data': '0xb95460f8' + '0'*24 + str.lower('1e77625c9818c25d4f4FA6b40D24Ef231D1740eF'), # open(address(canned-collapser))
+    #'gas': 150000,
+
+    #'nonce': 12,
+    #'to': '',      # none! (CREATE)
+    #'data': '0x608080600c6000396000f3003415600957600080fd5b60e060020a6000350460205263c85e07b96020511415606a576000805259600052601480606c600051396000516000f0606052606051604052337f9f0f13e03835c7dcca2675cb51976e07bd186b2e351cefe0db24ec0fe62105ef60206040a25b00602a6113375560028060126000396000f30030ff', # deploy: factory(collapser) (optimised)
+    #'gas': 150000,
+
+    'nonce': 13,
+    'to': '0xE725E70c7A00fF3Fb32B6C01Cce44600710d673e', # collapser-stamping-press
+    'data': '0xc85e07b9', # stamp()
+    'gas': 90000,
 
     ## TODO: use these
-    #'to': '0xE16f7d74353e2822E85d68b8a8DE2ae02f80486E', # uncanned-black-hole
-    #'to': '0xB7521f1Ba8c23dc60962D8cF8F842AAD46B3873A', # cloned-black-hole (from cloning-vat)
+    #'to': '0xE16f7d74353e2822E85d68b8a8DE2ae02f80486E', # uncanned-collapser (from can-opener)
+    #'to': '0xB7521f1Ba8c23dc60962D8cF8F842AAD46B3873A', # cloned-collapser (from cloning-vat)
+    #'to': '0x8cAF1dc82a0Fabc1374E5246C506dEAeD974789b', # stamped-collapser
 }
