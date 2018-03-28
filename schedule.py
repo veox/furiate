@@ -1,13 +1,17 @@
+from web3 import Web3
+
 tx = {
     #'nonce': 0,
     #'to': '',      # none! (CREATE)
     #'data': '0x600280600c6000396000f30030ff', # deploy: black-hole
-    #'gas': 90000,  # gasPrice set to "get from infura" when executing
+    #'gas': 90000,
+    ## gasPrice was not set!
 
     #'nonce': 1,
     #'to': '0x8905C87B11507A243bbf57a17718d55F4C8A497C', # black-hole
     #'value': 42,   # die antwoord
-    #'gas': 90000,  # gasPrice hard-coded to 1337 lovelace from here on
+    #'gas': 90000,
+    #'gasPrice': Web3.toWei(1337, 'lovelace')
 
     #'nonce': 2,
     #'to': '',      # none! (CREATE)
@@ -26,11 +30,11 @@ tx = {
     #'gas': 90000,
 
     #'nonce': 5,
+    #'to': '',      # none! (CREATE)
+    #'data': '0x609180600c6000396000f3003415600957600080fd5b361515601457600080fd5b7f600e380380600e6000396000f300600080fd00000000000000000000000000006101205236600061013237601236016101206000f061010052610100511515605c57600080fd5b61010051604052337f88bc4af924ebbcf92aeb0f1003d65460177fa2c66e3f6800d9b00cf9b8e5f0db60206040a26020610100f3', # deploy: cannery (optimised)
     #'gas': 90000,  # OOPS! OoG
 
     #'nonce': 6,
-    #'to': '',      # none! (CREATE)
-    #'data': '0x609180600c6000396000f3003415600957600080fd5b361515601457600080fd5b7f600e380380600e6000396000f300600080fd00000000000000000000000000006101205236600061013237601236016101206000f061010052610100511515605c57600080fd5b61010051604052337f88bc4af924ebbcf92aeb0f1003d65460177fa2c66e3f6800d9b00cf9b8e5f0db60206040a26020610100f3', # deploy: cannery (optimised)
     #'gas': 150000,
 
     #'nonce': 7,
