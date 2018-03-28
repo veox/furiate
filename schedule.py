@@ -106,36 +106,36 @@ txs = {
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
 
-    # the following three have been submitted in a single run
+    # the following three have been batched in a single run
     14: {
-        'to': '0xE16f7d74353e2822E85d68b8a8DE2ae02f80486E', # uncanned-collapser (from can-opener)
+        'to': '0xE16f7d74353e2822E85d68b8a8DE2ae02f80486E', # uncanned-collapser (from nonce 11)
         'gas': 25000, # OOPS! OoG
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
     15: {
-        'to': '0xB7521f1Ba8c23dc60962D8cF8F842AAD46B3873A', # cloned-collapser (from cloning-vat)
+        'to': '0xB7521f1Ba8c23dc60962D8cF8F842AAD46B3873A', # cloned-collapser (from nonce 4)
         'gas': 25000, # OOPS! OoG
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
     16: {
-        'to': '0x8cAF1dc82a0Fabc1374E5246C506dEAeD974789b', # stamped-collapser
+        'to': '0x8cAF1dc82a0Fabc1374E5246C506dEAeD974789b', # stamped-collapser (from nonce 13)
         'gas': 25000, # OOPS! OoG
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
 
-    # the following three have been submitted in a single run
+    # the following three have been batched in a single run
     17: {
-        'to': '0xE16f7d74353e2822E85d68b8a8DE2ae02f80486E', # uncanned-collapser (from can-opener)
+        'to': '0xE16f7d74353e2822E85d68b8a8DE2ae02f80486E', # uncanned-collapser (from nonce 11)
         'gas': 42000,
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
     18: {
-        'to': '0xB7521f1Ba8c23dc60962D8cF8F842AAD46B3873A', # cloned-collapser (from cloning-vat)
+        'to': '0xB7521f1Ba8c23dc60962D8cF8F842AAD46B3873A', # cloned-collapser (from nonce 4)
         'gas': 42000,
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
     19: {
-        'to': '0x8cAF1dc82a0Fabc1374E5246C506dEAeD974789b', # stamped-collapser
+        'to': '0x8cAF1dc82a0Fabc1374E5246C506dEAeD974789b', # stamped-collapser (from nonce 13)
         'gas': 42000,
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
