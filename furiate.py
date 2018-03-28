@@ -8,6 +8,8 @@ from eth_account import Account # will use directly instead of through web3 prov
 
 from schedule import chainids, txs
 
+print(len(txs), 'transactions in schedule.')
+
 with open('infura.key') as keyfile:
     infurakey = keyfile.read()
 
@@ -24,21 +26,26 @@ with open('ethereum.key') as keyfile:
     acct = Account.privateKeyToAccount(privkey)
 
 # get nonces on all chains
-nonces = {}
+chainnonces = {}
 for net, w3 in w3s.items():
     print(net, 'block', w3.eth.getBlock('latest')['number'])
-    nonces[net] = w3.eth.getTransactionCount(acct.address)
-print('Nonces:', nonces)
+    chainnonces[net] = w3.eth.getTransactionCount(acct.address) - 1
+print('Nonces present:', chainnonces)
 
-print(time.ctime())
+print('Starting run:', time.ctime())
 
 for nonce, tx in txs.items():
+    # don't even consider nonces present on all chains
+    if nonce <= min(chainnonces.values()):
+        print('Nonce', nonce, 'present on all chains - skipping...')
+        continue
+
     # populate "missing" key
     tx['nonce'] = nonce
 
     for net, w3 in w3s.items():
-        # skip txs already in the chain
-        if tx['nonce'] <= nonces[net]:
+        # skip txs already in _this_ chain
+        if tx['nonce'] <= chainnonces[net]:
             print('Transaction with nonce', tx['nonce'], 'already exists on', net, '- skipping...')
             continue
 
@@ -49,7 +56,7 @@ for nonce, tx in txs.items():
         if 'gasPrice' not in tx.keys():
             tx['gasPrice'] = w3.eth.gasPrice
 
-            signed = acct.signTransaction(tx)
+        signed = acct.signTransaction(tx)
 
-            txhash = w3.eth.sendRawTransaction(signed.rawTransaction)
-            print(net, 'tx with nonce', tx['nonce'], 'txhash', Web3.toHex(txhash))
+        txhash = w3.eth.sendRawTransaction(signed.rawTransaction)
+        print(net, 'tx with nonce', tx['nonce'], 'txhash', Web3.toHex(txhash))
