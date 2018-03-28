@@ -94,13 +94,13 @@ txs = {
 
     12: {
         'to': '', # none! (CREATE)
-        'data': '0x608080600c6000396000f3003415600957600080fd5b60e060020a6000350460205263c85e07b96020511415606a576000805259600052601480606c600051396000516000f0606052606051604052337f9f0f13e03835c7dcca2675cb51976e07bd186b2e351cefe0db24ec0fe62105ef60206040a25b00602a6113375560028060126000396000f30030ff', # deploy: factory(collapser) (optimised)
+        'data': '0x608080600c6000396000f3003415600957600080fd5b60e060020a6000350460205263c85e07b96020511415606a576000805259600052601480606c600051396000516000f0606052606051604052337f9f0f13e03835c7dcca2675cb51976e07bd186b2e351cefe0db24ec0fe62105ef60206040a25b00602a6113375560028060126000396000f30030ff', # deploy: collapser-stamping-press (optimised) (old)
         'gas': 150000,
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
 
     13: {
-        'to': '0xE725E70c7A00fF3Fb32B6C01Cce44600710d673e', # collapser-stamping-press
+        'to': '0xE725E70c7A00fF3Fb32B6C01Cce44600710d673e', # collapser-stamping-press (old)
         'data': '0xc85e07b9', # stamp()
         'gas': 90000,
         'gasPrice': Web3.toWei(1337, 'lovelace'),
@@ -136,6 +136,26 @@ txs = {
     },
     19: {
         'to': '0x8cAF1dc82a0Fabc1374E5246C506dEAeD974789b', # stamped-collapser (from nonce 13)
+        'gas': 42000,
+        'gasPrice': Web3.toWei(1337, 'lovelace'),
+    },
+
+    20: {
+        'to': '', # none! (CREATE)
+        'data': '0x60898061000d6000396000f3003415600957600080fd5b60e060020a6000350460205263c85e07b96020511415606f5760008052596000526014806075600051396000516000f0606052606051604052337f9f0f13e03835c7dcca2675cb51976e07bd186b2e351cefe0db24ec0fe62105ef60206040a260206060f35b600080fd00602a6113375560028060126000396000f30030ff', # deploy: updated stamping-press: collapser (optimised)
+        'gas': 150000,
+        'gasPrice': Web3.toWei(1337, 'lovelace'),
+    },
+
+    21: {
+        'to': '0xb20ad6089B9BEDCF6dDaadc4D9A56AD86694359a', # updated stamping-press
+        'data': '0xc85e07b9', # stamp()
+        'gas': 90000,
+        'gasPrice': Web3.toWei(1337, 'lovelace'),
+    },
+
+    22: {
+        'to': '0x7CEFB94598C954b3Cabf6a8d57dBaE822321Ff53', # stamped-collapser (from nonce 21)
         'gas': 42000,
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
