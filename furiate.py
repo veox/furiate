@@ -42,20 +42,18 @@ print(time.ctime())
 nonces = {}
 for net, w3 in w3s.items():
     print(net, 'block', w3.eth.getBlock('latest')['number'])
-
     nonces[net] = w3.eth.getTransactionCount(acct.address)
-
-    if len(set(list(nonces.values()))) > 1:
-        print('OOPS! nonces:', nonces)
-        raise Exception('Nonces do not line up!')
+if len(set(list(nonces.values()))) > 1:
+    print('OOPS! nonces:', nonces)
+    raise Exception('Nonces do not line up!')
 
 for net, w3 in w3s.items():
     # infura doesn't like chainId==0, so be explicit
     tx['chainId'] = chainids[net]
 
     # TODO: other ways to specify?..
-    #tx['gasPrice'] = w3.eth.gasPrice
-    tx['gasPrice'] = Web3.toWei(1337, 'lovelace')
+    if 'gasPrice' not in tx.keys():
+        tx['gasPrice'] = w3.eth.gasPrice
 
     signed = acct.signTransaction(tx)
 
