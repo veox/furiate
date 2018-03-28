@@ -22,13 +22,7 @@ if 'rinkeby' in w3s.keys():
     from web3.middleware import geth_poa_middleware
     w3s['rinkeby'].middleware_stack.inject(geth_poa_middleware, layer=0)
 
-# only ask for password once
-with open('ethereum.key') as keyfile:
-    privkey = Account.decrypt(keyfile.read(), getpass.getpass())
-    acct = Account.privateKeyToAccount(privkey)
-
-print(time.ctime())
-
+# check that nonces are the same on all chains
 nonces = {}
 for net, w3 in w3s.items():
     print(net, 'block', w3.eth.getBlock('latest')['number'])
@@ -36,6 +30,13 @@ for net, w3 in w3s.items():
 if len(set(list(nonces.values()))) > 1:
     print('OOPS! nonces:', nonces)
     raise Exception('Nonces do not line up!')
+
+# only ask for password once
+with open('ethereum.key') as keyfile:
+    privkey = Account.decrypt(keyfile.read(), getpass.getpass())
+    acct = Account.privateKeyToAccount(privkey)
+
+print(time.ctime())
 
 for net, w3 in w3s.items():
     # infura doesn't like chainId==0, so be explicit
