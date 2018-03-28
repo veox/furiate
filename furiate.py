@@ -36,8 +36,10 @@ print('Starting run:', time.ctime())
 
 for nonce, tx in txs.items():
     # don't even consider nonces present on all chains
-    if nonce <= min(chainnonces.values()):
-        print('Nonce', nonce, 'present on all chains - skipping...')
+    if nonce < min(chainnonces.values()):
+        continue
+    if nonce == min(chainnonces.values()):
+        print('Nonces up to (and including)', nonce, 'present on all chains - skipping...')
         continue
 
     # populate "missing" key
@@ -46,7 +48,7 @@ for nonce, tx in txs.items():
     for net, w3 in w3s.items():
         # skip txs already in _this_ chain
         if tx['nonce'] <= chainnonces[net]:
-            print('Transaction with nonce', tx['nonce'], 'already exists on', net, '- skipping...')
+            print('Transaction with nonce', tx['nonce'], 'already included on', net, '- skipping...')
             continue
 
         # infura doesn't like chainId==0, so be explicit
@@ -58,5 +60,14 @@ for nonce, tx in txs.items():
 
         signed = acct.signTransaction(tx)
 
-        txhash = w3.eth.sendRawTransaction(signed.rawTransaction)
-        print(net, 'tx with nonce', tx['nonce'], 'txhash', Web3.toHex(txhash))
+        try:
+            txhash = w3.eth.sendRawTransaction(signed.rawTransaction)
+            print(net, 'tx with nonce', tx['nonce'], 'txhash', Web3.toHex(txhash))
+        except ValueError as e:
+            errorcode = e.args[0]['code']
+
+            # 'invalid sender' (everywhere?..) and 'transaction already imported' (kovan)
+            if errorcode != -32000 and errorcode != -32010:
+                raise e
+            else:
+                print('Transaction with nonce', tx['nonce'], 'already submitted to', net)
