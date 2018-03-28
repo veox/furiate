@@ -106,8 +106,21 @@ txs = {
         'gasPrice': Web3.toWei(1337, 'lovelace'),
     },
 
-    ## TODO: use these
-    #'to': '0xE16f7d74353e2822E85d68b8a8DE2ae02f80486E', # uncanned-collapser (from can-opener)
-    #'to': '0xB7521f1Ba8c23dc60962D8cF8F842AAD46B3873A', # cloned-collapser (from cloning-vat)
-    #'to': '0x8cAF1dc82a0Fabc1374E5246C506dEAeD974789b', # stamped-collapser
+    14: {
+        'to': '0xE16f7d74353e2822E85d68b8a8DE2ae02f80486E', # uncanned-collapser (from can-opener)
+        'gas': 25000,
+        'gasPrice': Web3.toWei(1337, 'lovelace'),
+    },
+
+    15: {
+        'to': '0xB7521f1Ba8c23dc60962D8cF8F842AAD46B3873A', # cloned-collapser (from cloning-vat)
+        'gas': 25000,
+        'gasPrice': Web3.toWei(1337, 'lovelace'),
+    },
+
+    16: {
+        'to': '0x8cAF1dc82a0Fabc1374E5246C506dEAeD974789b', # stamped-collapser
+        'gas': 25000,
+        'gasPrice': Web3.toWei(1337, 'lovelace'),
+    },
 }
