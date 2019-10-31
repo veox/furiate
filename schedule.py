@@ -1,10 +1,11 @@
 from web3 import Web3
 
 chainids = {
-    'mainnet': 1,
+    #'mainnet': 1,
     'ropsten': 3,
     'rinkeby': 4,
-    'kovan': 42
+    'goerli': 5,
+    'kovan': 42,
 }
 
 txs = {

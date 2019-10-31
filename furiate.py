@@ -21,7 +21,9 @@ w3s = {
 # https://web3py.readthedocs.io/en/latest/middleware.html#geth-style-proof-of-authority
 if 'rinkeby' in w3s.keys():
     from web3.middleware import geth_poa_middleware
-    w3s['rinkeby'].middleware_stack.inject(geth_poa_middleware, layer=0)
+    w3s['rinkeby'].middleware_onion.inject(geth_poa_middleware, layer=0)
+    # UGLY: assume Goerli is used, too
+    w3s['goerli'].middleware_onion.inject(geth_poa_middleware, layer=0)
 
 # only ask for password once
 with open('ethereum.key') as keyfile:
@@ -34,6 +36,9 @@ for net, w3 in w3s.items():
     print(net, 'block', w3.eth.getBlock('latest')['number'])
     chainnonces[net] = w3.eth.getTransactionCount(acct.address) - 1
 print('Nonces present:', chainnonces)
+
+# print('Starting run in 10 seconds!')
+# time.sleep(10)
 
 print('Starting run:', time.ctime())
 
