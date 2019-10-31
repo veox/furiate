@@ -13,7 +13,10 @@ print(len(txs), 'transactions in schedule.')
 with open('infura.key') as keyfile:
     infurakey = keyfile.read()
 
-w3s = {net: Web3(HTTPProvider('https://' + net + '.infura.io/' + infurakey)) for net in chainids.keys()}
+w3s = {
+    net: Web3(HTTPProvider('https://' + net + '.infura.io/v3/' + infurakey))
+    for net in chainids.keys()
+}
 
 # https://web3py.readthedocs.io/en/latest/middleware.html#geth-style-proof-of-authority
 if 'rinkeby' in w3s.keys():
